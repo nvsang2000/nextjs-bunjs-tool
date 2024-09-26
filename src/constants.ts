@@ -23,7 +23,8 @@ export enum JobStatus {
 }
 
 export const TOOL_AIRDROP = {
-  TOOL_OKX: 'TOOL_OKX'
+  TOOL_OKX: 'TOOL_OKX',
+  TOOL_MOON_BIX: 'TOOL_MOON_BIX'
 }
 
 export const EMAIL_PATTERN =

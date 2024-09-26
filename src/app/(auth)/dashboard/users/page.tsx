@@ -18,6 +18,12 @@ export default function UsersPage({
   const { users } = useUser();
 
   const columns = [
+    {
+      title: "Username",
+      dataIndex: "username",
+      key: "username",
+      width: 250,
+    },
 
     {
       title: "Email",

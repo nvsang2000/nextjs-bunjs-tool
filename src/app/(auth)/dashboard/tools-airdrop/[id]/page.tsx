@@ -10,7 +10,7 @@ export default function DetailBlogPage({ params }: { params: { id: string } }) {
   const [loading, setLoading] = useState<boolean>(false);
   const { currentUser } = useAuth();
   const { findById, remove } = useToolAirdrop();
-  const { runJobOKX } = useRunJob();
+  const { runJobOKX, runJobMoonBix } = useRunJob();
   const [initialValues, setInitialValues] = useState<any>({});
   const id = params?.id;
 
@@ -31,6 +31,9 @@ export default function DetailBlogPage({ params }: { params: { id: string } }) {
     const { nameTool } = values;
     if (nameTool === TOOL_AIRDROP.TOOL_OKX)
       await runJobOKX(currentUser.id, values);
+
+    if (nameTool === TOOL_AIRDROP.TOOL_MOON_BIX)
+      await runJobMoonBix(currentUser.id, values);
   };
 
   return (

@@ -47,14 +47,18 @@ export default function ToolAirdropForm({
                 value: "TOOL_OKX",
                 label: "Tool airdrop OKX",
               },
+              {
+                value: "TOOL_MOON_BIX",
+                label: "Tool airdrop Moon Bix",
+              },
             ]}
           />
         </Form.Item>
 
         <Form.Item
-          label={<div className="text-[18px] font-medium">Proxy IP</div>}
+          label={<div className="text-[18px] font-medium">{'Proxy IP (Pending)'}</div>}
         >
-          <Form.List name={"proxy"}>
+          {/* <Form.List name={"proxy"}>
             {(subFields, subOpt) => (
               <div>
                 {subFields.map((subField) => (
@@ -63,6 +67,7 @@ export default function ToolAirdropForm({
                       <Form.Item name={[subField.name]}>
                         <Input
                           size="large"
+                          disabled
                           placeholder="http://username:password@ip:port"
                         />
                       </Form.Item>
@@ -90,7 +95,7 @@ export default function ToolAirdropForm({
                 </Button>
               </div>
             )}
-          </Form.List>
+          </Form.List> */}
         </Form.Item>
 
         <Form.Item

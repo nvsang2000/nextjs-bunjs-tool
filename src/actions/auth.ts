@@ -10,11 +10,7 @@ export async function login(infor: any) {
   try {
     const user = await prisma.user.findFirst({
       where: {
-        OR: [
-          { username: username },
-          { email: username },
-          { phone: username },
-        ],
+        username,
       },
     });
 
@@ -38,10 +34,10 @@ export async function getCurrentUser() {
   const cookieStore = cookies();
   const token = cookieStore.get("acc")?.value;
 
-  if(!token) return { mess: "Token has expired!" }
+  if (!token) return { mess: "Token has expired!" };
   try {
     const userId = await decodedJWT(token);
-    if(!userId)  return { mess: "Token has expired!" }
+    if (!userId) return { mess: "Token has expired!" };
 
     const user = await prisma.user.findUnique({
       where: { id: userId, isActive: true },
@@ -51,21 +47,20 @@ export async function getCurrentUser() {
         email: true,
         phone: true,
         role: true,
-      }
+      },
     });
-    if(!user) return { mess: "Account does not exist!" }
-    return { data: user }
+    if (!user) return { mess: "Account does not exist!" };
+    return { data: user };
   } catch (error) {
-    return { mess: "Error server!" }
+    return { mess: "Error server!" };
   }
 }
 
 export async function getUserId() {
   const cookieStore = cookies();
   const token = cookieStore.get("acc")?.value;
-  if(token) {
+  if (token) {
     const userId = await decodedJWT(token);
-    return userId
-  } else return undefined
-  
+    return userId;
+  } else return undefined;
 }

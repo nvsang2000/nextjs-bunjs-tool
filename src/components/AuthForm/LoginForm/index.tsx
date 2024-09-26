@@ -21,7 +21,7 @@ export default function LoginForm({ onSubmit, loading = false }: any) {
           className="!rounded-[4px]"
           prefix={<UserOutlined />}
           size={"large"}
-          placeholder="Enter username, email, phone!"
+          placeholder="Enter username!"
         />
       </Form.Item>
 
