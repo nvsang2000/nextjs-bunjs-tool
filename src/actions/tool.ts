@@ -1,8 +1,8 @@
 "use server";
 import prisma from "../lib/connectPrisma";
 
-export async function paginate() {
-  const result = await prisma.jobAirdrop.findMany({});
+export async function paginate(userId: any) {
+  const result = await prisma.jobAirdrop.findMany({ where: { userId } });
   return result;
 }
 

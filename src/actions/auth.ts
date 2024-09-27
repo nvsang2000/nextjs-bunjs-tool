@@ -8,7 +8,7 @@ export async function login(infor: any) {
   const { username, password } = infor;
 
   try {
-    const user = await prisma.user.findFirst({
+    const user = await prisma.user.findUnique({
       where: {
         username,
       },

@@ -3,24 +3,27 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { getCurrentUser, login } from "../actions/auth";
 import { useRouter } from "next/navigation";
+import { message } from "antd";
 
 export default function useAuth() {
   const [currentUser, setCurrentUser] = useState<any>();
-  const [accessToken, setAccessToken] = useState<any>();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    fetchProfile()
+    fetchProfile();
   }, []);
 
   const fetchProfile = async () => {
     try {
       const { data } = await getCurrentUser();
-      if (data) setCurrentUser(data);
-      else return router.push('/login')
-    } catch (e: any) {
-      console.log(e.message);
+      if (data) {
+        setCurrentUser(data);
+        return data;
+      } else return router.push("/login");
+    } catch (error: any) {
+      message.error(`${error}`);
+    } finally {
       setLoading(false);
     }
   };
@@ -28,15 +31,16 @@ export default function useAuth() {
   const handleLogin = async (payload: any) => {
     setLoading(true);
     try {
-      const { token } = await login(payload);
+      const { token, mess } = await login(payload);
       if (token) {
         Cookies.set("acc", token, { expires: 30 });
-        setAccessToken(token);
-        await fetchProfile();
         router.push("/dashboard");
+      } else {
+        message.error(mess);
       }
-    } catch (e: any) {
-      console.log(e.message);
+    } catch (error: any) {
+      message.error(`${error}`);
+    } finally {
       setLoading(false);
     }
   };
@@ -49,12 +53,11 @@ export default function useAuth() {
   return {
     currentUser,
     setCurrentUser: (data: any) => {
-      setCurrentUser(data)
+      setCurrentUser(data);
     },
     fetchProfile,
     login: handleLogin,
     logout,
     loading,
-  }
+  };
 }
-

@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import { create, findOne, paginate, remove } from "../actions/tool";
 import { message } from "antd";
 import { useRouter } from "next/navigation";
+import useAuth from "./useAuth";
 
 export default function useToolAirdrop() {
   const [toolAirdrops, setToolAirdrops] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false)
   const { back } = useRouter()
+  const { fetchProfile  } = useAuth()
 
   useEffect(() => {
     fetch()
@@ -16,7 +18,8 @@ export default function useToolAirdrop() {
   const fetch = async () => {
     setLoading(true)
     try {
-      const result = await paginate();
+      const user = await fetchProfile()
+      const result = await paginate(user?.id);
       if(result) setToolAirdrops(result)
     } catch (error) {
       message.error(`${error}`)
@@ -25,7 +28,7 @@ export default function useToolAirdrop() {
     }
   };
 
-  const findById = async (id: string) => {
+  const findByIdTool = async (id: string) => {
     setLoading(true)
     try {
       const result = await findOne(id)
@@ -73,6 +76,6 @@ export default function useToolAirdrop() {
     refetch: fetch,
     create: handleCreate,
     remove: handleRemove,
-    findById,
+    findById: findByIdTool,
   };
 }
