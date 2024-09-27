@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const axios = require('axios');
-const colors = require('colors');
 const readline = require('readline');
 
 export default class Binance {
@@ -353,13 +352,8 @@ export default class Binance {
         }
     }
 
-    async main() {
-        const dataFile = path.join(__dirname, 'data.txt');
-        const data = fs.readFileSync(dataFile, 'utf8')
-            .replace(/\r/g, '')
-            .split('\n')
-            .filter(Boolean);
-
+    async main(requestId) {
+        const data = requestId
         while (true) {
             for (let i = 0; i < data.length; i++) {
                 const queryString = data[i];
@@ -375,9 +369,3 @@ export default class Binance {
         }
     }
 }
-
-const client = new Binance();
-client.main().catch(err => {
-    client.log(err.message, 'error');
-    process.exit(1);
-});

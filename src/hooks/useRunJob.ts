@@ -23,10 +23,11 @@ export default function useRunJob() {
     }
   };
 
-  const runJobMoonBix = async (userId: string, values: any) => {
+  const runJobMoonBix = async (userId: string, values: any, reOpen = false) => {
     setLoading(true);
     try {
-      await create(userId, values);
+      if(!reOpen) await create(userId, values);
+      
       await jobMoonbix(values);
       back();
     } catch (error) {
@@ -39,6 +40,6 @@ export default function useRunJob() {
   return {
     loading,
     runJobOKX,
-    runJobMoonBix
+    runJobMoonBix,
   };
 }

@@ -4,12 +4,15 @@ import { Button, Col, Row, Space, Switch, Table } from "antd";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import dayjsInstance from "@/utils/dayjs";
-import { useToolAirdrop } from "@/hooks";
+import { useAuth, useRunJob, useToolAirdrop } from "@/hooks";
+import { parseSafe } from "@/helpers";
 
 export default function UsersPage({ searchParams }: { searchParams?: any }) {
   const { push } = useRouter();
   const parmas = useSearchParams();
   const { toolAirdrops } = useToolAirdrop();
+  const { runJobMoonBix } = useRunJob();
+  const { currentUser } = useAuth()
 
   const columns = [
     {
@@ -49,12 +52,24 @@ export default function UsersPage({ searchParams }: { searchParams?: any }) {
       render: (_: any, record: any) => {
         return (
           <div>
-            <Button
-              onClick={() => push(`/dashboard/tools-airdrop/${record.id}`)}
-              type="primary"
-            >
-              Edit
-            </Button>
+            <Space>
+              <Button
+                onClick={() => {
+                  const { requestId } = record;
+                  console.log("hello", requestId)
+                  const values = { requestId: parseSafe(requestId) }
+                  return runJobMoonBix(currentUser?.id, values, true)
+                }}
+              >
+                Re Open
+              </Button>
+              <Button
+                onClick={() => push(`/dashboard/tools-airdrop/${record.id}`)}
+                type="primary"
+              >
+                Edit
+              </Button>
+            </Space>
           </div>
         );
       },

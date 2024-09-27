@@ -6,12 +6,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import dayjsInstance from "@/utils/dayjs";
 import { useUser } from "@/hooks";
+import { ROLE } from "@/constants";
 
-export default function UsersPage({
-  searchParams,
-}: {
-  searchParams?: any;
-}) {
+export default function UsersPage({ searchParams }: { searchParams?: any }) {
   const { push, replace } = useRouter();
   const [meta, setMeta] = useState({});
   const parmas = useSearchParams();
@@ -79,18 +76,19 @@ export default function UsersPage({
       render: (_: any, record: any) => {
         return (
           <div>
-            <Button
-              onClick={() => push(`/dashboard/users/${record.id}`)}
-              type="primary"
-            >
-              Edit
-            </Button>
+            {record?.role !== ROLE.ADMIN && (
+              <Button
+                onClick={() => push(`/dashboard/users/${record.id}`)}
+                type="primary"
+              >
+                Edit
+              </Button>
+            )}
           </div>
         );
       },
     },
   ];
-
 
   return (
     <>
