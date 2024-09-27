@@ -95,7 +95,7 @@ export default class Binance {
 
             return { userInfo: userInfoResponse.data.data, accessToken };
         } catch (error) {
-            this.log(`API call failed: ${error.message}`, 'error');
+            //this.log(`API call failed: ${error.message}`, 'error');
             return null;
         }
     }
@@ -111,19 +111,19 @@ export default class Binance {
             this.gameResponse = response.data;
 
             if (response.data.code === '000000') {
-                this.log("Bắt đầu game thành công", 'success');
+                //this.log("Bắt đầu game thành công", 'success');
                 return true;
             }
 
             if (response.data.code === '116002') {
-                this.log("Không đủ lượt chơi!", 'warning');
+                //this.log("Không đủ lượt chơi!", 'warning');
             } else {
-                this.log("Lỗi khi bắt đầu game!", 'error');
+                //this.log("Lỗi khi bắt đầu game!", 'error');
             }
 
             return false;
         } catch (error) {
-            this.log(`Không thể bắt đầu game: ${error.message}`, 'error');
+            //this.log(`Không thể bắt đầu game: ${error.message}`, 'error');
             return false;
         }
     }
@@ -196,7 +196,7 @@ export default class Binance {
     
             return true;
         } catch (error) {
-            this.log(`Error in getGameData: ${error.message}`, 'error');
+            //this.log(`Error in getGameData: ${error.message}`, 'error');
             this.game = null;
             return false;
         }
@@ -217,14 +217,14 @@ export default class Binance {
             );
             const data = response.data;
             if (data.success) {
-                this.log(`Hoàn thành game thành công | Nhận được ${this.game.log} points`, 'custom');
+                //this.log(`Hoàn thành game thành công | Nhận được ${this.game.log} points`, 'custom');
                 return true;
             } else {
-                this.log(`Failed to complete game: ${JSON.stringify(data)}`, 'warning');
+                //this.log(`Failed to complete game: ${JSON.stringify(data)}`, 'warning');
                 return false;
             }
         } catch (error) {
-            this.log(`Error completing game: ${error.message}`, 'error');
+            //this.log(`Error completing game: ${error.message}`, 'error');
             return false;
         }
     }
@@ -252,7 +252,7 @@ export default class Binance {
             
             return resourceIds;
         } catch (error) {
-            this.log(`Không thể lấy danh sách nhiệm vụ: ${error.message}`, 'error');
+            //this.log(`Không thể lấy danh sách nhiệm vụ: ${error.message}`, 'error');
             return null;
         }
     }
@@ -275,12 +275,12 @@ export default class Binance {
             }
 
             if (response.data.data.type) {
-                this.log(`Làm nhiệm vụ ${response.data.data.type} thành công!`, 'success');
+                //this.log(`Làm nhiệm vụ ${response.data.data.type} thành công!`, 'success');
             }
 
             return true;
         } catch (error) {
-            this.log(`Không thể hoàn thành nhiệm vụ: ${error.message}`, 'error');
+            //this.log(`Không thể hoàn thành nhiệm vụ: ${error.message}`, 'error');
             return false;
         }
     }
@@ -288,7 +288,7 @@ export default class Binance {
     async completeTasks(accessToken) {
         const resourceIds = await this.getTaskList(accessToken);
         if (!resourceIds || resourceIds.length === 0) {
-            this.log("No uncompleted tasks found", 'info');
+            //this.log("No uncompleted tasks found", 'info');
             return;
         }
 
@@ -296,9 +296,9 @@ export default class Binance {
             if (resourceId !== 2058) {
                 const success = await this.completeTask(accessToken, resourceId);
                 if (success) {
-                    this.log(`Đã hoàn thành nhiệm vụ: ${resourceId}`, 'success');
+                    //this.log(`Đã hoàn thành nhiệm vụ: ${resourceId}`, 'success');
                 } else {
-                    this.log(`Không thể hoàn thành nhiệm vụ: ${resourceId}`, 'warning');
+                    //this.log(`Không thể hoàn thành nhiệm vụ: ${resourceId}`, 'warning');
                 }
                 await new Promise(resolve => setTimeout(resolve, 1000));
             }
@@ -329,7 +329,7 @@ export default class Binance {
                     await this.countdown(45);
                     if (await this.completeGame(accessToken)) {
                         availableTickets--;
-                        this.log(`Vé còn lại: ${availableTickets}`, 'info');
+                        //this.log(`Vé còn lại: ${availableTickets}`, 'info');
                     } else {
                         break;
                     }
@@ -348,7 +348,7 @@ export default class Binance {
         }
     
         if (availableTickets === 0) {
-            this.log("Đã sử dụng hết vé", 'success');
+            //this.log("Đã sử dụng hết vé", 'success');
         }
     }
 
